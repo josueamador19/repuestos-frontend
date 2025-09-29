@@ -13,10 +13,7 @@ Este proyecto es un sistema de gestión de repuestos con **backend en FastAPI** 
 
 ---
 
-## 🔹 Backend (FastAPI)
+## 🔹 Frontend (REACT-Bootstrap)
 
-
- - python -m venv venv
- - venv\Scripts\activate
- - pip install -r requirements.txt
- - uvicorn main:app --reload
+ - npm install
+ - npm run dev
