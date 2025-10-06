@@ -58,7 +58,7 @@ export default function NavbarCustom() {
             <Nav className="ms-auto">
               <Nav.Link as={NavLink} to="/" end className={({ isActive }) => isActive ? 'active-page' : ''}>Home</Nav.Link>
               <Nav.Link as={NavLink} to="/productos" className={({ isActive }) => isActive ? 'active-page' : ''}>Productos</Nav.Link>
-              <Nav.Link as={NavLink} to="/categorias" className={({ isActive }) => isActive ? 'active-page' : ''}>Categorías</Nav.Link>
+              <Nav.Link as={NavLink} to="/blog" className={({ isActive }) => isActive ? 'active-page' : ''}>Blog</Nav.Link>
               <Nav.Link as={NavLink} to="/login" className={({ isActive }) => isActive ? 'active-page' : 'btn-login'}>Login</Nav.Link>
           
               <Nav.Link 
