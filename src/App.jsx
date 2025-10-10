@@ -8,6 +8,7 @@ import Blog from './pages/Blog'
 import NuevaNoticia from './pages/NuevaNoticia'
 import NoticiaDetalle from "./pages/NoticiaDetalle";
 import FooterCustom from "./components/FooterCustom";
+import Contacto from "./pages/Contacto";
 
 export default function App() {
   return (
@@ -18,8 +19,9 @@ export default function App() {
     <Route path="/productos" element={<Productos />} />
     <Route path="/checkout" element={<Checkout />} />
     <Route path="/blog" element={<Blog />} />
+    <Route path="/blog/nueva" element={<NuevaNoticia />} />
     <Route path="/blog/noticia/:id" element={<NoticiaDetalle />} /> 
-    <Route path="/nueva-noticia" element={<NuevaNoticia />} />
+    <Route path="/contacto" element={<Contacto />} />
 
     
   </Routes>

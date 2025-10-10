@@ -11,8 +11,12 @@ export default function FooterCustom() {
             <p>Todos los derechos reservados © 2025</p>
           </Col>
           <Col md={6} className="text-md-end">
-            <p>Contacto: info@repuestos.com</p>
-            <p>Tel: 9999-1111</p>
+            <p>Aplicacion Web Elaborada por:</p>
+            <p>Idalia Cruz</p>
+            <p>Marian Osorio</p>
+            <p>Maria Mejia</p>
+            <p>Oscar Amador</p>
+            <p>Wilmer Morales</p>
           </Col>
         </Row>
       </Container>

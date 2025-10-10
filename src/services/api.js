@@ -47,11 +47,25 @@ export async function addComentario(noticiaId, usuarioId = 1, contenido, autor =
   return { ...data, autor, contenido, id: data?.id || Date.now() };
 }
 
-export async function addNoticia(titulo, contenido, autor, imagen_url = null, categoria = null) {
-  const res = await fetch(`${API_URL}/blog`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ titulo, contenido, autor, imagen_url, categoria })
-  });
-  return res.json();
+// Crear Noticia
+export async function addNoticia(titulo, contenido, autorId = 1, categoria = "", imagenFile = null) {
+    try {
+        const formData = new FormData();
+        formData.append("titulo", titulo);
+        formData.append("contenido", contenido);
+        formData.append("AutorID", autorId);
+        formData.append("categoria", categoria);
+        if (imagenFile) {
+            formData.append("imagen", imagenFile);
+        }
+
+        const response = await axios.post(`${API_URL}/blog/`, formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error al crear noticia:", error);
+        throw error;
+    }
 }
