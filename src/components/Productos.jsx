@@ -31,46 +31,7 @@ export default function Productos() {
     setCantidadCarrito(nuevoCarrito.length);
     
     window.dispatchEvent(new Event('actualizarCarrito'));
-    
   };
-
-const actualizarCantidadProducto = (producto, nuevaCantidad) => {
-  if (nuevaCantidad < 0) return;
-  if (nuevaCantidad > producto.Stock) return;
-  
-  if (nuevaCantidad === 0) {
-    return;
-  }
-  
-  const carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
-  const productoExistente = carritoActual.find(item => item.id === producto.id);
-  let nuevoCarrito;
-  
-  if (productoExistente) {
-    nuevoCarrito = carritoActual.map(item =>
-      item.id === producto.id
-        ? { ...item, cantidad: nuevaCantidad }
-        : item
-    );
-  } else {
-    nuevoCarrito = [...carritoActual, { 
-      ...producto, 
-      cantidad: nuevaCantidad 
-    }];
-  }
-  
-  localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
-  
-  window.dispatchEvent(new Event('actualizarCarrito'));
-  
-  setProductos(productosActuales => 
-    productosActuales.map(p =>
-      p.id === producto.id
-        ? { ...p, cantidad: nuevaCantidad }
-        : p
-    )
-  );
-};
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/productos/")
@@ -110,8 +71,8 @@ const actualizarCantidadProducto = (producto, nuevaCantidad) => {
   return (
     <Container className="my-5">
       <h1 className="mb-4">Nuestros Productos</h1>
-    
       
+
       <Row>
         {productos.map((producto) => (
           <Col key={producto.id} xs={12} sm={6} md={4} lg={3} className="mb-4">

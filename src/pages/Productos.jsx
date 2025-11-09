@@ -77,7 +77,7 @@ export default function Productos() {
 
   return (
     <Container className="my-5">
-      <h1 className="mb-4">Nuestros Productos</h1>
+      <h1 className="mb-4">Nuestros productos</h1>
       
       <Row>
         {productos.map((producto) => {
@@ -100,10 +100,13 @@ export default function Productos() {
                   </Card.Text>
                   
                   <Button 
-                    variant={estadoBoton === 'added' ? 'outline-primary' : 'primary'}
+                    variant={estadoBoton === 'added' ? 'outline-secondary' : 'primary'}
                     disabled={producto.Stock === 0 || estadoBoton === 'loading'}
                     onClick={() => agregarAlCarrito(producto)}
                     className="w-100"
+                    style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F'}}
+                    onMouseEnter={(e)=>e.target.style.backgroundColor='#034a79ff'}
+                    onMouseLeave={(e)=>e.target.style.backgroundColor='#022A3F'}
                   >
                     {estadoBoton === 'loading' ? (
                       <>
@@ -118,7 +121,7 @@ export default function Productos() {
                         Agregando...
                       </>
                     ) : estadoBoton === 'added' ? (
-                      "✅ Añadido!"
+                      "✔ Añadido!"
                     ) : (
                       "🛒 Agregar"
                     )}

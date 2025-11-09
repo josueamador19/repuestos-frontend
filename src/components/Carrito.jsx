@@ -56,7 +56,10 @@ export default function Carrito({ show, handleClose }) {
             <p className="text-muted">
               ¡Bienvenida/o! Tu carrito no tiene productos.
             </p>
-            <Button variant="primary" onClick={handleClose}>
+            <Button style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F'}}
+                onMouseEnter={(e)=>e.target.style.backgroundColor='#034a79ff'}
+                onMouseLeave={(e)=>e.target.style.backgroundColor='#022A3F'}
+                onClick={handleClose}>
               Comenzar a comprar
             </Button>
           </div>
@@ -139,10 +142,17 @@ export default function Carrito({ show, handleClose }) {
               </div>
               
               <div className="d-grid gap-2">
-                <Button variant="secondary" onClick={handleClose}>
+                <Button               
+                    style={{ backgroundColor: '#D7C5A1', borderColor: '#ada38fff', color: 'black'}}
+                    onMouseEnter={(e)=>e.target.style.backgroundColor='#ada38fff'}
+                    onMouseLeave={(e)=>e.target.style.backgroundColor='#D7C5A1'}   
+                    onClick={handleClose}>
                   Seguir comprando
                 </Button>
-                <Button variant="primary" onClick={irAlCheckout}>
+                <Button style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F'}}
+                onMouseEnter={(e)=>e.target.style.backgroundColor='#034a79ff'}
+                onMouseLeave={(e)=>e.target.style.backgroundColor='#022A3F'} 
+                onClick={irAlCheckout}>
                   Realizar pago
                 </Button>
               </div>

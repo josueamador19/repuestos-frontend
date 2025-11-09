@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { Navbar, Nav, Container, Button, NavDropdown, Badge, Form, FormControl } from 'react-bootstrap';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './NavbarCustom.css';
 import Carrito from './Carrito';
 
@@ -10,6 +9,9 @@ export default function NavbarCustom() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showCarrito, setShowCarrito] = useState(false);
   const [cantidadCarrito, setCantidadCarrito] = useState(0);
+  const [user, setUser] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   const controlNavbar = () => {
     const currentScrollY = window.scrollY;
@@ -22,6 +24,35 @@ export default function NavbarCustom() {
   };
 
   useEffect(() => {
+    const loadUser = () => {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        setUser(JSON.parse(userData));
+      } else {
+        setUser(null);
+      }
+    };
+
+    loadUser();
+
+    const handleStorageChange = () => {
+      loadUser();
+    };
+
+    const handleLogin = () => {
+      loadUser();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('userLogin', handleLogin);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('userLogin', handleLogin);
+    };
+  }, []);
+
+  useEffect(() => {
     const actualizarContador = () => {
       const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
       setCantidadCarrito(carrito.length);
@@ -29,17 +60,25 @@ export default function NavbarCustom() {
 
     actualizarContador();
     window.addEventListener('storage', actualizarContador);
+    window.addEventListener('actualizarCarrito', actualizarContador);
     
-  return () => {
-    window.removeEventListener('storage', actualizarContador);
-    window.removeEventListener('actualizarCarrito', actualizarContador);
-  };
-}, []);
+    return () => {
+      window.removeEventListener('storage', actualizarContador);
+      window.removeEventListener('actualizarCarrito', actualizarContador);
+    };
+  }, []);
 
   useEffect(() => {
     window.addEventListener('scroll', controlNavbar);
     return () => window.removeEventListener('scroll', controlNavbar);
   }, [lastScrollY]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    window.dispatchEvent(new Event('userLogout'));
+    navigate('/');
+  };
 
   return (
     <>
@@ -55,18 +94,55 @@ export default function NavbarCustom() {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <Nav.Link as={NavLink} to="/" end className={({ isActive }) => isActive ? 'active-page' : ''}>Home</Nav.Link>
-              <Nav.Link as={NavLink} to="/productos" className={({ isActive }) => isActive ? 'active-page' : ''}>Productos</Nav.Link>
-              <Nav.Link as={NavLink} to="/blog" className={({ isActive }) => isActive ? 'active-page' : ''}>Blog</Nav.Link>
-              <Nav.Link as={NavLink} to="/contacto" className={({ isActive }) => isActive ? 'active-page' : ''}>Contacto</Nav.Link>
-              <Nav.Link as={NavLink} to="/login" className={({ isActive }) => isActive ? 'active-page' : 'btn-login'}>Login</Nav.Link>
-          
+            <Nav className="ms-auto align-items-center">
+              {!user && (
+                <Nav.Link as={NavLink} to="/" end className={({ isActive }) => isActive ? 'active-page' : ''}>
+                  Home
+                </Nav.Link>
+              )}
+              
+              <Nav.Link as={NavLink} to="/productos" className={({ isActive }) => isActive ? 'active-page' : ''}>
+                Productos
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/blog" className={({ isActive }) => isActive ? 'active-page' : ''}>
+                Blog
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/contacto" className={({ isActive }) => isActive ? 'active-page' : ''}>
+                Contacto
+              </Nav.Link>
+              
+              {user ? (
+                <NavDropdown 
+                  title={
+                    <span>
+                      👤 {user.nombre.split(' ')[0]}
+                    </span>
+                  } 
+                  id="user-dropdown"
+                  align="end"
+                >
+                  <NavDropdown.Item as={NavLink} to="/mis-pedidos" className="dropdown-item-custom">
+                    Mis pedidos
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item 
+                    onClick={handleLogout} 
+                    className="dropdown-item-custom text-danger"
+                  >
+                    Cerrar sesión
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <Nav.Link as={NavLink} to="/login" className={({ isActive }) => isActive ? 'active-page' : ''}>
+                  Inicio de sesión
+                </Nav.Link>
+              )}
+
               <Nav.Link 
                 as={Button}
                 variant="outline-light"
                 onClick={() => setShowCarrito(true)}
-                className="position-relative btn-carrito"
+                className="position-relative btn-carrito ms-2"
                 style={{ border: 'none', background: 'transparent' }}
               >
                 🛒 

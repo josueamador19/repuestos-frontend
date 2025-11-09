@@ -1,0 +1,9 @@
+.custom-checkout-btn {
+  background-color: #022A3F !important;
+  border-color: #022A3F !important;
+}
+
+.custom-checkout-btn:hover {
+  background-color: #011a29 !important;
+  border-color: #011a29 !important;
+}
