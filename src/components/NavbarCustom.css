@@ -1,5 +1,19 @@
 .custom-navbar {
-  transition: top 0.3s;
+  background: linear-gradient(90deg, #0a1a2a 0%, #132f4c 100%);
+}
+.navbar-dark .navbar-brand,
+.navbar-dark .nav-link,
+.navbar-dark .nav-dropdown-toggle {
+  color: #f1f1f1 !important;
+}
+.navbar-dark .nav-link:hover,
+.navbar-dark .navbar-brand:hover {
+  color: #00b4ff !important; 
+}
+.navbar-brand {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #ffffff !important;
 }
 
 .navbar-show {

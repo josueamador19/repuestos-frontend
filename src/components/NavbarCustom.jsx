@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Container, Button, NavDropdown, Badge, Form, FormControl } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, NavDropdown } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './NavbarCustom.css';
 import Carrito from './Carrito';
+import Logo from '../assets/logo.png'; 
 
 export default function NavbarCustom() {
   const [show, setShow] = useState(true);
@@ -10,7 +11,6 @@ export default function NavbarCustom() {
   const [showCarrito, setShowCarrito] = useState(false);
   const [cantidadCarrito, setCantidadCarrito] = useState(0);
   const [user, setUser] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   const controlNavbar = () => {
@@ -26,26 +26,14 @@ export default function NavbarCustom() {
   useEffect(() => {
     const loadUser = () => {
       const userData = localStorage.getItem('user');
-      if (userData) {
-        setUser(JSON.parse(userData));
-      } else {
-        setUser(null);
-      }
+      if (userData) setUser(JSON.parse(userData));
+      else setUser(null);
     };
-
     loadUser();
-
-    const handleStorageChange = () => {
-      loadUser();
-    };
-
-    const handleLogin = () => {
-      loadUser();
-    };
-
+    const handleStorageChange = () => loadUser();
+    const handleLogin = () => loadUser();
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('userLogin', handleLogin);
-    
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('userLogin', handleLogin);
@@ -57,11 +45,9 @@ export default function NavbarCustom() {
       const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
       setCantidadCarrito(carrito.length);
     };
-
     actualizarContador();
     window.addEventListener('storage', actualizarContador);
     window.addEventListener('actualizarCarrito', actualizarContador);
-    
     return () => {
       window.removeEventListener('storage', actualizarContador);
       window.removeEventListener('actualizarCarrito', actualizarContador);
@@ -89,8 +75,13 @@ export default function NavbarCustom() {
         className={`custom-navbar ${show ? 'navbar-show' : 'navbar-hide'}`}
       >
         <Container>
-          <Navbar.Brand as={NavLink} to="/" end>
-            Repuestos
+          <Navbar.Brand as={NavLink} to="/" end className="d-flex align-items-center">
+            <img
+              src={Logo}
+              alt="Logo RepuestosExpress"
+              style={{ width: '100px', height: '80px', marginRight: '10px' , filter:'brightness(0) invert(1)'}}
+            />
+            RepuestosExpress
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -100,7 +91,6 @@ export default function NavbarCustom() {
                   Home
                 </Nav.Link>
               )}
-              
               <Nav.Link as={NavLink} to="/productos" className={({ isActive }) => isActive ? 'active-page' : ''}>
                 Productos
               </Nav.Link>
@@ -110,14 +100,9 @@ export default function NavbarCustom() {
               <Nav.Link as={NavLink} to="/contacto" className={({ isActive }) => isActive ? 'active-page' : ''}>
                 Contacto
               </Nav.Link>
-              
               {user ? (
                 <NavDropdown 
-                  title={
-                    <span>
-                      👤 {user.nombre.split(' ')[0]}
-                    </span>
-                  } 
+                  title={<span>👤 {user.nombre.split(' ')[0]}</span>} 
                   id="user-dropdown"
                   align="end"
                 >
@@ -125,10 +110,7 @@ export default function NavbarCustom() {
                     Mis pedidos
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item 
-                    onClick={handleLogout} 
-                    className="dropdown-item-custom text-danger"
-                  >
+                  <NavDropdown.Item onClick={handleLogout} className="dropdown-item-custom text-danger">
                     Cerrar sesión
                   </NavDropdown.Item>
                 </NavDropdown>
@@ -137,7 +119,6 @@ export default function NavbarCustom() {
                   Inicio de sesión
                 </Nav.Link>
               )}
-
               <Nav.Link 
                 as={Button}
                 variant="outline-light"
@@ -145,7 +126,7 @@ export default function NavbarCustom() {
                 className="position-relative btn-carrito ms-2"
                 style={{ border: 'none', background: 'transparent' }}
               >
-                🛒 
+                🛒
                 {cantidadCarrito > 0 && (
                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     {cantidadCarrito}
