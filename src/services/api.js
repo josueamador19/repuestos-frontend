@@ -32,7 +32,7 @@ export async function getComentariosByNoticia(id) {
  * Añadir comentario con UsuarioID fijo = 1 y autor = "Anónimo", aqui tambien debe de cambiarse eso cuando
  * el login este terminado
  */
-export async function addComentario(noticiaId, usuarioId = 1, contenido, autor = "Anónimo") {
+export async function addComentario(noticiaId, usuarioId , contenido, autor = "Anónimo") {
   const res = await fetch(`${API_URL}/comentarios`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
