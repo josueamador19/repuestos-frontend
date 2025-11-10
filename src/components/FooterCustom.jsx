@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function FooterCustom() {
   return (
@@ -11,6 +12,14 @@ export default function FooterCustom() {
             <p>Todos los derechos reservados © 2025</p>
           </Col>
           <Col md={6} className="text-md-end">
+          <div className="mb-2">
+              <Link to="/faq" className="btn btn-outline-light btn-sm me-2" role="button">
+                FAQ
+              </Link>
+              <Link to="/politicas" className="btn btn-outline-light btn-sm" role="button">
+                Políticas
+              </Link>
+            </div>
             <p>Aplicacion Web Elaborada por:</p>
             <p>Idalia Cruz</p>
             <p>Marian Osorio</p>

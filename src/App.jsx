@@ -15,6 +15,8 @@ import Login from './components/Login';
 import Registro from './components/Registro';
 import MisPedidos from './components/MisPedidos';
 import DetallePedido from './components/DetallePedido';
+import Politicas from "./pages/Politicas";
+import Faq from "./pages/Faq";
 
 
 export default function App() {
@@ -35,8 +37,8 @@ export default function App() {
     <Route path="/registro" element={<Registro />} />
     <Route path="/mis-pedidos" element={<MisPedidos />} />
     <Route path="/pedido/:pedidoId" element={<DetallePedido />} />
-
-
+    <Route path="/politicas" element={<Politicas />} />
+    <Route path="/faq" element={<Faq />} />
     
   </Routes>
   <FooterCustom/>

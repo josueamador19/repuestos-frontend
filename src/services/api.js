@@ -69,3 +69,58 @@ export async function addNoticia(titulo, contenido, autorId = 1, categoria = "",
         throw error;
     }
 }
+
+
+// =========================
+// FAQ (Preguntas Frecuentes)
+// =========================
+export const getFaq = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/faq`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener preguntas frecuentes:', error);
+    return [];
+  }
+};
+
+export const addFaq = async (pregunta, respuesta, categoria = "") => {
+  try {
+    const response = await axios.post(`${API_URL}/faq`, {
+      pregunta,
+      respuesta,
+      categoria,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al agregar pregunta frecuente:', error);
+    throw error;
+  }
+};
+
+// =========================
+// POLÍTICAS
+// =========================
+export const getPoliticas = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/politicas`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener políticas:', error);
+    return [];
+  }
+};
+
+export const addPolitica = async (tipo, titulo, contenido) => {
+  try {
+    const response = await axios.post(`${API_URL}/politicas`, {
+      tipo,
+      titulo,
+      contenido,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al agregar política:', error);
+    throw error;
+  }
+};
