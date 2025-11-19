@@ -77,7 +77,7 @@ useEffect(() => {
       }
 
       if (user) {
-        const direccionResponse = await fetch(`${backendUrl}/pedidos/direcciones`, {
+        const direccionResponse = await fetch(`${backendUrl}/pedidos/direcciones/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
