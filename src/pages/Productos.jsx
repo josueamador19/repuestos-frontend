@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Spinner, Alert } from "react-bootstrap";
+import { backendUrl } from "../services/api";
 
 export default function Productos() {
   const [productos, setProductos] = useState([]);
@@ -43,7 +44,7 @@ export default function Productos() {
   };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/productos/")
+    fetch(`${backendUrl}/productos/`)
       .then((res) => {
         if (!res.ok) throw new Error("Error al obtener los productos");
         return res.json();

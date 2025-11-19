@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Badge, Spinner, Alert, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import { backendUrl } from '../services/api';
 export default function DetallePedido() {
   const { pedidoId } = useParams();
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function DetallePedido() {
 
   const cargarDetallePedido = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/pedidos/${pedidoId}`);
+      const response = await fetch(`${backendUrl}/pedidos/${pedidoId}`);
       
       if (response.ok) {
         const data = await response.json();

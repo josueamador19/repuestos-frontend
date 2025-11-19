@@ -18,7 +18,6 @@ import DetallePedido from './components/DetallePedido';
 import Politicas from "./pages/Politicas";
 import Faq from "./pages/Faq";
 
-
 export default function App() {
   return (
     <Router>

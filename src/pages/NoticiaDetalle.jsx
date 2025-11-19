@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Card, Form, Button } from "react-bootstrap";
 import { getNoticiaById, getComentariosByNoticia, addComentario } from "../services/api";
+import { backendUrl } from "../services/api";
 
 export default function NoticiaDetalle() {
     const { id } = useParams();
@@ -58,7 +59,7 @@ export default function NoticiaDetalle() {
                 {noticia.imagen_url && (
                     <Card.Img
                         variant="top"
-                        src={`http://127.0.0.1:8000/static/images/${noticia.imagen_url}`}
+                        src={`${backendUrl}/static/images/${noticia.imagen_url}`}
                         style={{
                             width: "80%",
                             maxWidth: "400px",

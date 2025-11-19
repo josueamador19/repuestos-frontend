@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button, Card, Alert, Spinner } from "react-bootstrap";
+import { backendUrl } from "../services/api";
 
-const API_URL = "http://127.0.0.1:8000";
+
 
 export default function Contacto() {
     const [contactInfo, setContactInfo] = useState(null);
@@ -18,7 +19,7 @@ export default function Contacto() {
     useEffect(() => {
         async function fetchInfo() {
             try {
-                const res = await fetch(`${API_URL}/contacto/info`);
+                const res = await fetch(`${backendUrl}/contacto/info`);
                 const data = await res.json();
                 setContactInfo(data);
             } catch (err) {
@@ -46,7 +47,7 @@ export default function Contacto() {
             form.append("asunto", formData.asunto);
             form.append("mensaje", formData.mensaje);
 
-            const res = await fetch(`${API_URL}/contacto/mensaje`, {
+            const res = await fetch(`${backendUrl}/contacto/mensaje`, {
                 method: "POST",
                 body: form
             });

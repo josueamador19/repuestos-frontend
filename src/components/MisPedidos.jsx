@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Badge, Spinner, Alert, Button } from 'react-bootstrap'; // 🔥 Agrega Button aquí
 import { useNavigate } from 'react-router-dom';
+import { backendUrl } from '../services/api';
 
 export default function MisPedidos() {
   const [pedidos, setPedidos] = useState([]);
@@ -22,7 +23,7 @@ export default function MisPedidos() {
     try {
       console.log('Cargando pedidos para usuario:', usuarioId); 
       
-      const response = await fetch(`http://127.0.0.1:8000/pedidos/usuario/${usuarioId}`);
+      const response = await fetch(`${backendUrl}/pedidos/usuario/${usuarioId}`);
       
       console.log('Status de respuesta:', response.status); 
       

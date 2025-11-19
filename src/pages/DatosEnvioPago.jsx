@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-
+import { backendUrl } from '../services/api';
 export default function DatosEnvioPago() {
   const navigate = useNavigate();
   const [metodoPago, setMetodoPago] = useState('');
@@ -77,7 +77,7 @@ useEffect(() => {
       }
 
       if (user) {
-        const direccionResponse = await fetch('http://127.0.0.1:8000/pedidos/direcciones/', {
+        const direccionResponse = await fetch(`${backendUrl}/pedidos/direcciones`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ useEffect(() => {
 
         const direccionData = await direccionResponse.json();
 
-        const pedidoResponse = await fetch('http://127.0.0.1:8000/pedidos/usuario/', {
+        const pedidoResponse = await fetch(`${backendUrl}/pedidos/usuario/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ useEffect(() => {
         navigate('/mis-pedidos');
 
       } else {
-        const pedidoResponse = await fetch('http://127.0.0.1:8000/pedidos/invitado/', {
+        const pedidoResponse = await fetch(`${backendUrl}/pedidos/invitado/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

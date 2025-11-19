@@ -1,11 +1,14 @@
 
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000';
+
+export const backendUrl = import.meta.env.VITE_API_URL
+ 
+console.log("API URL usada:", backendUrl);
 
 export const getProductos = async () => {
   try {
-    const response = await axios.get(`${API_URL}/productos`); 
+    const response = await axios.get(`${backendUrl}/productos`); 
     return response.data;
   } catch (error) {
     console.error('Error al obtener productos:', error);
@@ -14,17 +17,17 @@ export const getProductos = async () => {
 };
 
 export async function getNoticias() {
-  const res = await fetch(`${API_URL}/blog`);
+  const res = await fetch(`${backendUrl}/blog`);
   return res.json();
 }
 
 export async function getNoticiaById(id) {
-  const res = await fetch(`${API_URL}/blog/${id}`);
+  const res = await fetch(`${backendUrl}/blog/${id}`);
   return res.json();
 }
 
 export async function getComentariosByNoticia(id) {
-  const res = await fetch(`${API_URL}/comentarios/${id}`);
+  const res = await fetch(`${backendUrl}/comentarios/${id}`);
   return res.json();
 }
 
@@ -33,7 +36,7 @@ export async function getComentariosByNoticia(id) {
  * el login este terminado
  */
 export async function addComentario(noticiaId, usuarioId , contenido, autor = "Anónimo") {
-  const res = await fetch(`${API_URL}/comentarios`, {
+  const res = await fetch(`${backendUrl}/comentarios`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
@@ -59,7 +62,7 @@ export async function addNoticia(titulo, contenido, autorId = 1, categoria = "",
             formData.append("imagen", imagenFile);
         }
 
-        const response = await axios.post(`${API_URL}/blog/`, formData, {
+        const response = await axios.post(`${backendUrl}/blog/`, formData, {
             headers: { "Content-Type": "multipart/form-data" }
         });
 
@@ -76,7 +79,7 @@ export async function addNoticia(titulo, contenido, autorId = 1, categoria = "",
 // =========================
 export const getFaq = async () => {
   try {
-    const response = await axios.get(`${API_URL}/faq`);
+    const response = await axios.get(`${backendUrl}/faq`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener preguntas frecuentes:', error);
@@ -86,7 +89,7 @@ export const getFaq = async () => {
 
 export const addFaq = async (pregunta, respuesta, categoria = "") => {
   try {
-    const response = await axios.post(`${API_URL}/faq`, {
+    const response = await axios.post(`${backendUrl}/faq`, {
       pregunta,
       respuesta,
       categoria,
@@ -103,7 +106,7 @@ export const addFaq = async (pregunta, respuesta, categoria = "") => {
 // =========================
 export const getPoliticas = async () => {
   try {
-    const response = await axios.get(`${API_URL}/politicas`);
+    const response = await axios.get(`${backendUrl}/politicas`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener políticas:', error);
@@ -113,7 +116,7 @@ export const getPoliticas = async () => {
 
 export const addPolitica = async (tipo, titulo, contenido) => {
   try {
-    const response = await axios.post(`${API_URL}/politicas`, {
+    const response = await axios.post(`${backendUrl}/politicas`, {
       tipo,
       titulo,
       contenido,

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
+import { backendUrl } from '../services/api';
 
 export default function Registro() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function Registro() {
     setSuccess('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/auth/register', {
+      const response = await fetch(`${backendUrl}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

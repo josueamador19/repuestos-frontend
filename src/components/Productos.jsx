@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Spinner, Alert } from "react-bootstrap";
+import { getProductos } from "../services/api";
 
 export default function Productos() {
   const [productos, setProductos] = useState([]);
@@ -9,45 +10,37 @@ export default function Productos() {
 
   const agregarAlCarrito = (producto) => {
     const carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
-    
     const productoExistente = carritoActual.find(item => item.id === producto.id);
-    
+
+    let nuevoCarrito;
     if (productoExistente) {
-      const nuevoCarrito = carritoActual.map(item =>
+      nuevoCarrito = carritoActual.map(item =>
         item.id === producto.id
           ? { ...item, cantidad: item.cantidad + 1 }
           : item
       );
-      localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
     } else {
-      const nuevoCarrito = [...carritoActual, { 
-        ...producto, 
-        cantidad: 1 
-      }];
-      localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+      nuevoCarrito = [...carritoActual, { ...producto, cantidad: 1 }];
     }
-    
-    const nuevoCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
     setCantidadCarrito(nuevoCarrito.length);
-    
     window.dispatchEvent(new Event('actualizarCarrito'));
   };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/productos/")
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al obtener los productos");
-        return res.json();
-      })
+     console.log("backendUrl en Productos.jsx:", backendUrl);
+    getProductos()
       .then((data) => {
         setProductos(data.productos || []);
         setLoading(false);
-        
+
         const carritoStorage = JSON.parse(localStorage.getItem('carrito')) || [];
         setCantidadCarrito(carritoStorage.length);
       })
       .catch((err) => {
-        setError(err.message);
+        console.error(err);
+        setError("Error al obtener los productos");
         setLoading(false);
       });
   }, []);
@@ -71,8 +64,6 @@ export default function Productos() {
   return (
     <Container className="my-5">
       <h1 className="mb-4">Nuestros Productos</h1>
-      
-
       <Row>
         {productos.map((producto) => (
           <Col key={producto.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
