@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Row, Col, Offcanvas } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { imagenUrl } from '../services/api';
 
 export default function Carrito({ show, handleClose }) {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ export default function Carrito({ show, handleClose }) {
                 <Row key={producto.id} className="mb-3 border-bottom pb-2 align-items-center">
                   <Col xs={3}>
                     <img 
-                      src={producto.ImagenURL || "https://via.placeholder.com/150"} 
+                      src={producto.ImagenURL ? imagenUrl + producto.ImagenURL : "https://via.placeholder.com/150"} 
                       alt={producto.nombre}
                       style={{ width: '100%', height: '50px', objectFit: 'contain' }}
                     />
