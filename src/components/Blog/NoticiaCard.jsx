@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 
+import { imagenUrl } from '../services/api';
 
 export default function NoticiaCard({ noticia }) {
     const navigate= useNavigate();
@@ -10,7 +11,7 @@ export default function NoticiaCard({ noticia }) {
             {noticia.imagen_url && (
                 <Card.Img
                     variant="top"
-                    src={noticia.imagen_url ? `http://127.0.0.1:8000/static/images/${noticia.imagen_url}` : '/static/images/placeholder.jpg'}
+                    src={noticia.imagen_url ? imagenUrl + noticia.imagen_url : '/static/images/placeholder.jpg'}
                     alt={noticia.titulo}
                     style={{ objectFit: 'cover', height: '200px' }}
                 />
