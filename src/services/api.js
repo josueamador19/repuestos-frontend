@@ -3,6 +3,7 @@ import axios from 'axios';
 
 
 export const backendUrl = import.meta.env.VITE_API_URL
+export const imagenUrl = `${backendUrl}/static/images/`
  
 console.log("API URL usada:", backendUrl);
 

@@ -1,7 +1,6 @@
-
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Spinner, Alert } from "react-bootstrap";
-import { backendUrl } from "../services/api";
+import { backendUrl, imagenUrl } from "../services/api";
 
 export default function Productos() {
   const [productos, setProductos] = useState([]);
@@ -9,7 +8,6 @@ export default function Productos() {
   const [error, setError] = useState("");
   const [botonesEstado, setBotonesEstado] = useState({}); 
 
-  
   const agregarAlCarrito = async (producto) => {
     setBotonesEstado(prev => ({ ...prev, [producto.id]: 'loading' }));
     await new Promise(resolve => setTimeout(resolve, 800));
@@ -49,8 +47,7 @@ export default function Productos() {
         if (!res.ok) throw new Error("Error al obtener los productos");
         return res.json();
       })
-      .then((data) => {
-        
+      .then((data) => {      
         setProductos(data.productos || []);
         setLoading(false);
       })
@@ -89,9 +86,14 @@ export default function Productos() {
               <Card>
                 <Card.Img
                   variant="top"
-                  src={producto.ImagenURL || "https://via.placeholder.com/150"}
+                  src={
+                    producto.ImagenURL
+                      ? imagenUrl + producto.ImagenURL
+                      : "https://via.placeholder.com/150"
+                  }
                   style={{ objectFit: "contain", height: "200px", width: "100%" }}
                 />
+
                 <Card.Body>
                   <Card.Title>{producto.nombre}</Card.Title>
                   <Card.Text>
