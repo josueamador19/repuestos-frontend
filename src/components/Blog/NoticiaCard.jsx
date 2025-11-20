@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-import { imagenUrl } from '../services/api';
+import { imagenUrl } from '../../services/api';
 
 export default function NoticiaCard({ noticia }) {
     const navigate= useNavigate();
