@@ -1,12 +1,14 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInstagram, faTiktok } from '@fortawesome/free-brands-svg-icons';
 
 export default function FooterCustom() {
   return (
     <footer
       style={{
-        background: 'linear-gradient(90deg, #0b1d2e 0%, #142c46 100%)', 
+        background: 'linear-gradient(90deg, #0b1d2e 0%, #142c46 100%)',
         color: '#ffffff',
         paddingTop: '2rem',
         paddingBottom: '2rem',
@@ -21,21 +23,33 @@ export default function FooterCustom() {
           </Col>
 
           <Col md={6} className="text-md-end">
+
             <div className="mb-3">
-              <Link
-                to="/faq"
-                className="btn btn-outline-light btn-sm me-2"
-                role="button"
-              >
+              <Link to="/faq" className="btn btn-outline-light btn-sm me-2">
                 FAQ
               </Link>
-              <Link
-                to="/politicas"
-                className="btn btn-outline-light btn-sm"
-                role="button"
-              >
+              <Link to="/politicas" className="btn btn-outline-light btn-sm">
                 Políticas
               </Link>
+            </div>
+
+            {/* Redes sociales */}
+            <div className="d-flex justify-content-center justify-content-md-end gap-3 mb-3">
+              <a href="https://www.tiktok.com/@TU_USUARIO"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-light"
+                style={{ fontSize: "1.8rem" }}>
+                <FontAwesomeIcon icon={faTiktok} />
+              </a>
+
+              <a href="https://www.instagram.com/TU_USUARIO/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-light"
+                style={{ fontSize: "1.8rem" }}>
+                <FontAwesomeIcon icon={faInstagram} />
+              </a>
             </div>
 
             <p className="mb-1">Aplicación Web elaborada por:</p>
