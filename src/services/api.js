@@ -1,11 +1,17 @@
 
 import axios from 'axios';
-
-
-export const backendUrl = import.meta.env.VITE_API_URL
-export const imagenUrl = `${backendUrl}/static/images/`
- 
+const isProduction = import.meta.env.MODE === "production";
+export const backendUrl =
+  isProduction
+    ? import.meta.env.VITE_API_URL
+    : "http://localhost:8000";
 console.log("API URL usada:", backendUrl);
+console.log("API URL usada:", backendUrl);
+//export const backendUrl = import.meta.env.VITE_API_URL
+export const imagenUrl = `${backendUrl}/static/images/`
+
+
+
 
 export const getProductos = async () => {
   try {
