@@ -42,6 +42,7 @@ export default function Login() {
           id: data.usuario_id,
           nombre: data.nombre,
           email: data.email,
+          telefono: data.telefono,
           rol_id: data.rol_id
         }));
         

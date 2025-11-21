@@ -1,0 +1,29 @@
+.card-contenedor {
+  max-width: 320px;
+  background-color: #1f2937 !important; 
+}
+
+.tarjeta-input {
+  height: 40px;
+  background-color: #1f2937 !important;
+  color: white !important;
+  font-weight: 600;
+  border: none !important;
+  outline: none !important;
+  font-size: 0.9rem;
+}
+
+.tarjeta-input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important; 
+  font-weight: 500;
+}
+
+.tarjeta-input:focus {
+  box-shadow: 0 0 0 2px rgba(255, 128, 0, 0.5);
+}
+
+.logo-tarjeta {
+  width: 60px;
+  height: 40px;
+  background-color: #1f2937;
+}

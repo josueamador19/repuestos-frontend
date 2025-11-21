@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Badge, Spinner, Alert, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { backendUrl } from '../services/api';
+
 export default function DetallePedido() {
   const { pedidoId } = useParams();
   const navigate = useNavigate();
@@ -143,7 +144,7 @@ export default function DetallePedido() {
                   </Card.Header>
                   <Card.Body>
                     <p><strong>Subtotal:</strong> L. {pedido.factura.subtotal.toFixed(2)}</p>
-                    <p><strong>Envío:</strong> L. {pedido.factura.costo_envio.toFixed(2)}</p>
+                    <p><strong>Envío:</strong> L. {pedido.factura.envio.toFixed(2)}</p>
                     <p><strong>Impuestos:</strong> L. {pedido.factura.impuesto.toFixed(2)}</p>
                     <hr />
                     <p><strong>Total:</strong> L. {pedido.factura.total.toFixed(2)}</p>

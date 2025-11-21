@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Table, Alert, Navbar } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import { imagenUrl } from '../services/api';
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -26,30 +27,30 @@ export default function Checkout() {
 
       <Container className="my-5">
         <h1 className="mb-4">Verifica tu carrito</h1>
-        
+
         <Row className="mb-4">
           <Col className="text-center">
             <div className="d-flex justify-content-center align-items-center flex-wrap">
-              <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-2" 
-                   style={{ width: '35px', height: '35px' }}>
+              <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-2"
+                style={{ width: '35px', height: '35px' }}>
                 1
               </div>
               <div className="mx-1 small">Verifica tu carrito</div>
-              
-              <div className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mx-2" 
-                   style={{ width: '35px', height: '35px' }}>
+
+              <div className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mx-2"
+                style={{ width: '35px', height: '35px' }}>
                 2
               </div>
               <div className="mx-1 small">Inicia sesión</div>
-              
-              <div className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mx-2" 
-                   style={{ width: '35px', height: '35px' }}>
+
+              <div className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mx-2"
+                style={{ width: '35px', height: '35px' }}>
                 3
               </div>
               <div className="mx-1 small">Datos de envío y pago</div>
-              
-              <div className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mx-2" 
-                   style={{ width: '35px', height: '35px' }}>
+
+              <div className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mx-2"
+                style={{ width: '35px', height: '35px' }}>
                 4
               </div>
               <div className="mx-1 small">Pedido confirmado</div>
@@ -76,8 +77,10 @@ export default function Checkout() {
                   <tr key={producto.id}>
                     <td>
                       <div className="d-flex align-items-center">
-                        <img 
-                          src={producto.ImagenURL || "https://via.placeholder.com/150"} 
+                        <img
+                          src={producto.ImagenURL
+                            ? imagenUrl + producto.ImagenURL
+                            : "https://via.placeholder.com/150"}
                           alt={producto.nombre}
                           style={{ width: '60px', height: '60px', objectFit: 'contain', marginRight: '15px' }}
                         />
@@ -129,10 +132,10 @@ export default function Checkout() {
                   <strong>Total</strong>
                   <strong>L. {(total + 100 + (total * 0.15)).toFixed(2)}</strong>
                 </div>
-                
-                <Button 
-                  size="lg" 
-                  className="w-100 mb-2" 
+
+                <Button
+                  size="lg"
+                  className="w-100 mb-2"
                   onClick={() => {
                     const user = JSON.parse(localStorage.getItem('user'));
                     if (user) {
@@ -141,20 +144,20 @@ export default function Checkout() {
                       navigate('/seleccion-login');
                     }
                   }}
-                  style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F'}}
-                  onMouseEnter={(e)=>e.target.style.backgroundColor='#034a79ff'}
-                  onMouseLeave={(e)=>e.target.style.backgroundColor='#022A3F'}
+                  style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F' }}
+                  onMouseEnter={(e) => e.target.style.backgroundColor = '#034a79ff'}
+                  onMouseLeave={(e) => e.target.style.backgroundColor = '#022A3F'}
                 >
                   Finalizar compra
                 </Button>
-                
-                <Button 
-                    className="w-100 mb-2" 
-                    style={{ backgroundColor: '#D7C5A1', borderColor: '#ada38fff', color: 'black'}}
-                    onMouseEnter={(e)=>e.target.style.backgroundColor='#ada38fff'}
-                    onMouseLeave={(e)=>e.target.style.backgroundColor='#D7C5A1'} 
-                    onClick={() => navigate('/productos')}
-                    >
+
+                <Button
+                  className="w-100 mb-2"
+                  style={{ backgroundColor: '#D7C5A1', borderColor: '#ada38fff', color: 'black' }}
+                  onMouseEnter={(e) => e.target.style.backgroundColor = '#ada38fff'}
+                  onMouseLeave={(e) => e.target.style.backgroundColor = '#D7C5A1'}
+                  onClick={() => navigate('/productos')}
+                >
                   Seguir Comprando
                 </Button>
               </Card.Body>

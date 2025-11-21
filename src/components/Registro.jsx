@@ -46,6 +46,7 @@ export default function Registro() {
           id: data.usuario_id,
           nombre: formData.nombre,
           email: formData.email,
+          telefono: formData.telefono,
           rol_id: 2
           }));
   

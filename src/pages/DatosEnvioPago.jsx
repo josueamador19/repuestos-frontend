@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Form, Alert, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, Alert, Spinner, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { backendUrl } from '../services/api';
+import TarjetaModal from '../components/TarjetaModal';
 export default function DatosEnvioPago() {
   const navigate = useNavigate();
   const [metodoPago, setMetodoPago] = useState('');
@@ -18,26 +19,31 @@ export default function DatosEnvioPago() {
     codigoPostal: ''
   });
 
+  const [showTarjetaModal, setShowTarjetaModal] = useState(false);
+
+  const handleCloseTarjetaModal = () => setShowTarjetaModal(false);
+  const handleShowTarjetaModal = () => setShowTarjetaModal(true);
+
   const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
   const subtotal = carrito.reduce((sum, item) => sum + (item.Precio * item.cantidad), 0);
   const user = JSON.parse(localStorage.getItem('user'));
 
-useEffect(() => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  if (user) {
-    const nombreCompleto = user.nombre.split(' ');
-    const nombre = nombreCompleto[0] || '';
-    const apellidos = nombreCompleto.slice(1).join(' ') || '';
-    
-    setFormData(prev => ({
-      ...prev,
-      nombre: nombre,
-      apellidos: apellidos,
-      email: user.email || '',
-      telefono: user.telefono || ''
-    }));
-  }
-}, []);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      const nombreCompleto = user.nombre.split(' ');
+      const nombre = nombreCompleto[0] || '';
+      const apellidos = nombreCompleto.slice(1).join(' ') || '';
+
+      setFormData(prev => ({
+        ...prev,
+        nombre: nombre,
+        apellidos: apellidos,
+        email: user.email || '',
+        telefono: user.telefono || ''
+      }));
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -67,12 +73,12 @@ useEffect(() => {
 
     try {
       let metodoPagoId;
-      switch(metodoPago) {
+      switch (metodoPago) {
         case 'tarjeta':
-          metodoPagoId = 1; 
+          metodoPagoId = 1;
           break;
         case 'efectivo':
-          metodoPagoId = 3; 
+          metodoPagoId = 3;
           break;
       }
 
@@ -120,10 +126,10 @@ useEffect(() => {
         }
 
         const pedidoData = await pedidoResponse.json();
-        
+
         localStorage.removeItem('carrito');
         window.dispatchEvent(new Event('actualizarCarrito'));
-        
+
         alert(`¡Pedido realizado con éxito!`);
         navigate('/mis-pedidos');
 
@@ -158,9 +164,9 @@ useEffect(() => {
         const pedidoData = await pedidoResponse.json();
         localStorage.removeItem('carrito');
         window.dispatchEvent(new Event('actualizarCarrito'));
-        
+
         alert(`¡Pedido realizado con éxito! Número de pedido: ${pedidoData.pedido_id}`);
-        navigate('/'); 
+        navigate('/');
       }
 
     } catch (error) {
@@ -195,26 +201,26 @@ useEffect(() => {
       <Row className="mb-4">
         <Col className="text-center">
           <div className="d-flex justify-content-center align-items-center flex-wrap">
-            <div className="bg-success text-white rounded-circle d-flex align-items-center justify-content-center mx-2" 
-                 style={{ width: '35px', height: '35px' }}>
+            <div className="bg-success text-white rounded-circle d-flex align-items-center justify-content-center mx-2"
+              style={{ width: '35px', height: '35px' }}>
               1
             </div>
             <div className="mx-1 small">Verifica tu carrito</div>
-            
-            <div className="bg-success text-white rounded-circle d-flex align-items-center justify-content-center mx-2" 
-                 style={{ width: '35px', height: '35px' }}>
+
+            <div className="bg-success text-white rounded-circle d-flex align-items-center justify-content-center mx-2"
+              style={{ width: '35px', height: '35px' }}>
               2
             </div>
             <div className="mx-1 small">Inicia sesión</div>
-            
-            <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-2" 
-                 style={{ width: '35px', height: '35px' }}>
+
+            <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-2"
+              style={{ width: '35px', height: '35px' }}>
               3
             </div>
             <div className="mx-1 small">Datos de envío y pago</div>
-            
-            <div className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mx-2" 
-                 style={{ width: '35px', height: '35px' }}>
+
+            <div className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mx-2"
+              style={{ width: '35px', height: '35px' }}>
               4
             </div>
             <div className="mx-1 small">Pedido confirmado</div>
@@ -236,18 +242,18 @@ useEffect(() => {
           <Card className="mb-4">
             <Card.Body>
               <p className="text-muted">
-                {user 
+                {user
                   ? "Verifica y completa la dirección de envío."
                   : "Solicitamos únicamente la información esencial para la finalización de la compra."
                 }
               </p>
-              
+
               <Form.Group className="mb-3">
                 <Form.Label><strong>Correo *</strong></Form.Label>
-                <Form.Control 
-                  type="email" 
+                <Form.Control
+                  type="email"
                   name="email"
-                  placeholder="tu@email.com" 
+                  placeholder="tu@email.com"
                   value={formData.email}
                   onChange={handleInputChange}
                   required
@@ -260,13 +266,13 @@ useEffect(() => {
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label><strong>Nombre *</strong></Form.Label>
-                    <Form.Control 
-                      type="text" 
+                    <Form.Control
+                      type="text"
                       name="nombre"
-                      placeholder="Tu nombre" 
+                      placeholder="Tu nombre"
                       value={formData.nombre}
                       onChange={handleInputChange}
-                      required 
+                      required
                       disabled={user}
                     />
                   </Form.Group>
@@ -274,10 +280,10 @@ useEffect(() => {
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label><strong>Apellidos</strong></Form.Label>
-                    <Form.Control 
-                      type="text" 
+                    <Form.Control
+                      type="text"
                       name="apellidos"
-                      placeholder="Tus apellidos" 
+                      placeholder="Tus apellidos"
                       value={formData.apellidos}
                       onChange={handleInputChange}
                       disabled={user}
@@ -288,10 +294,10 @@ useEffect(() => {
 
               <Form.Group className="mb-3">
                 <Form.Label><strong>Teléfono *</strong></Form.Label>
-                <Form.Control 
-                  type="tel" 
+                <Form.Control
+                  type="tel"
                   name="telefono"
-                  placeholder="+504 1234-5678" 
+                  placeholder="+504 1234-5678"
                   value={formData.telefono}
                   onChange={handleInputChange}
                   required
@@ -301,11 +307,11 @@ useEffect(() => {
 
               <Form.Group className="mb-3">
                 <Form.Label><strong>Dirección de envío *</strong></Form.Label>
-                <Form.Control 
-                  as="textarea" 
-                  rows={3} 
+                <Form.Control
+                  as="textarea"
+                  rows={3}
                   name="direccion"
-                  placeholder="Dirección completa (calle, número, colonia, etc.)" 
+                  placeholder="Dirección completa (calle, número, colonia, etc.)"
                   value={formData.direccion}
                   onChange={handleInputChange}
                   required
@@ -316,10 +322,10 @@ useEffect(() => {
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label><strong>Ciudad *</strong></Form.Label>
-                    <Form.Control 
-                      type="text" 
+                    <Form.Control
+                      type="text"
                       name="ciudad"
-                      placeholder="Ciudad" 
+                      placeholder="Ciudad"
                       value={formData.ciudad}
                       onChange={handleInputChange}
                       required
@@ -329,10 +335,10 @@ useEffect(() => {
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label><strong>Departamento *</strong></Form.Label>
-                    <Form.Control 
-                      type="text" 
+                    <Form.Control
+                      type="text"
                       name="departamento"
-                      placeholder="Departamento" 
+                      placeholder="Departamento"
                       value={formData.departamento}
                       onChange={handleInputChange}
                       required
@@ -343,10 +349,10 @@ useEffect(() => {
 
               <Form.Group className="mb-3">
                 <Form.Label><strong>Código Postal</strong></Form.Label>
-                <Form.Control 
-                  type="text" 
+                <Form.Control
+                  type="text"
                   name="codigoPostal"
-                  placeholder="Código postal" 
+                  placeholder="Código postal"
                   value={formData.codigoPostal}
                   onChange={handleInputChange}
                 />
@@ -367,7 +373,7 @@ useEffect(() => {
                   onChange={() => setMetodoPago('tarjeta')}
                   className="mb-3"
                 />
-                
+
                 <Form.Check
                   type="radio"
                   id="efectivo"
@@ -378,8 +384,17 @@ useEffect(() => {
                   className="mb-3"
                 />
               </Form.Group>
+
+             
+              {metodoPago === 'tarjeta' && (
+                <Button variant="primary" onClick={handleShowTarjetaModal}>
+                  Agregar tarjeta
+                </Button>
+              )}
+
             </Card.Body>
           </Card>
+
         </Col>
 
         <Col md={4}>
@@ -400,12 +415,12 @@ useEffect(() => {
                   </div>
                 </div>
               ))}
-              
+
               <div className="d-flex justify-content-between mb-2">
                 <span>Subtotal</span>
                 <span>L. {subtotal.toFixed(2)}</span>
               </div>
-              
+
               <div className="d-flex justify-content-between mb-2">
                 <span>Gastos del envío</span>
                 <span className="text-success">L. 100.00</span>
@@ -415,23 +430,23 @@ useEffect(() => {
                 <span>Impuestos</span>
                 <span>L. {(subtotal * 0.15).toFixed(2)}</span>
               </div>
-              
+
               <hr />
-              
+
               <div className="d-flex justify-content-between mb-3">
                 <strong>Total</strong>
                 <strong>L. {(subtotal + 100 + (subtotal * 0.15)).toFixed(2)}</strong>
               </div>
 
-              <Button 
-                variant="primary" 
-                size="lg" 
+              <Button
+                variant="primary"
+                size="lg"
                 className="w-100 mb-2"
                 onClick={handleSubmit}
                 disabled={loading}
-                style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F'}}
-                onMouseEnter={(e)=>e.target.style.backgroundColor='#034a79ff'}
-                onMouseLeave={(e)=>e.target.style.backgroundColor='#022A3F'}
+                style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#034a79ff'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#022A3F'}
               >
                 {loading ? (
                   <>
@@ -449,9 +464,9 @@ useEffect(() => {
                   'Confirmar Pedido'
                 )}
               </Button>
-              
-              <Button 
-                variant="outline-secondary" 
+
+              <Button
+                variant="outline-secondary"
                 className="w-100"
                 onClick={() => navigate('/checkout')}
                 disabled={loading}
@@ -462,6 +477,16 @@ useEffect(() => {
           </Card>
         </Col>
       </Row>
+    
+      <Modal show={showTarjetaModal} onHide={handleCloseTarjetaModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Agregar Tarjeta</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <TarjetaModal onClose={handleCloseTarjetaModal} />
+        </Modal.Body>
+      </Modal>
+
     </Container>
   );
 }

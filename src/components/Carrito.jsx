@@ -12,9 +12,9 @@ export default function Carrito({ show, handleClose }) {
     setCarrito(carritoStorage);
   }, [show]);
 
-    const irAlCheckout = () => {
-    handleClose(); 
-    navigate('/checkout'); 
+  const irAlCheckout = () => {
+    handleClose();
+    navigate('/checkout');
   };
 
   const eliminarDelCarrito = (productoId) => {
@@ -26,29 +26,29 @@ export default function Carrito({ show, handleClose }) {
 
   const actualizarCantidad = (productoId, nuevaCantidad) => {
     if (nuevaCantidad < 0) return;
-    
-  const nuevoCarrito = carrito.map(item =>
+
+    const nuevoCarrito = carrito.map(item =>
       item.id === productoId
         ? { ...item, cantidad: nuevaCantidad }
         : item
     );
 
-  setCarrito(nuevoCarrito);
+    setCarrito(nuevoCarrito);
     localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
     window.dispatchEvent(new Event('storage'));
   };
 
   return (
-    <Offcanvas 
-      show={show} 
-      onHide={handleClose} 
-      placement="end" 
+    <Offcanvas
+      show={show}
+      onHide={handleClose}
+      placement="end"
       style={{ width: '400px' }}
     >
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>🛒 Mi carrito</Offcanvas.Title>
       </Offcanvas.Header>
-      
+
       <Offcanvas.Body >
         {carrito.length === 0 ? (
           <div className="text-center py-4">
@@ -57,10 +57,13 @@ export default function Carrito({ show, handleClose }) {
             <p className="text-muted">
               ¡Bienvenida/o! Tu carrito no tiene productos.
             </p>
-            <Button style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F'}}
-                onMouseEnter={(e)=>e.target.style.backgroundColor='#034a79ff'}
-                onMouseLeave={(e)=>e.target.style.backgroundColor='#022A3F'}
-                onClick={handleClose}>
+            <Button style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#034a79ff'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#022A3F'}
+              onClick={() => {
+                handleClose();
+                navigate('/productos');
+              }}>
               Comenzar a comprar
             </Button>
           </div>
@@ -72,8 +75,8 @@ export default function Carrito({ show, handleClose }) {
               {carrito.map((producto) => (
                 <Row key={producto.id} className="mb-3 border-bottom pb-2 align-items-center">
                   <Col xs={3}>
-                    <img 
-                      src={producto.ImagenURL ? imagenUrl + producto.ImagenURL : "https://via.placeholder.com/150"} 
+                    <img
+                      src={producto.ImagenURL ? imagenUrl + producto.ImagenURL : "https://via.placeholder.com/150"}
                       alt={producto.nombre}
                       style={{ width: '100%', height: '50px', objectFit: 'contain' }}
                     />
@@ -81,10 +84,10 @@ export default function Carrito({ show, handleClose }) {
                   <Col xs={5}>
                     <h6 className="mb-1 small">{producto.nombre}</h6>
                     <small className="text-muted">Cant: {producto.cantidad}</small>
-                    
-                     <div className="d-flex align-items-center mt-2">
-                      <Button 
-                        variant="outline-secondary" 
+
+                    <div className="d-flex align-items-center mt-2">
+                      <Button
+                        variant="outline-secondary"
                         size="sm"
                         onClick={() => actualizarCantidad(producto.id, producto.cantidad - 1)}
                         disabled={producto.cantidad <= 1}
@@ -92,20 +95,20 @@ export default function Carrito({ show, handleClose }) {
                       >
                         -
                       </Button>
-                       <div 
+                      <div
                         className="mx-2 fw-bold border rounded text-center"
-                        style={{ 
-                        width: '50px', 
-                        height: '30px', 
-                        lineHeight: '30px',
-                        backgroundColor: '#f8f9fa'
+                        style={{
+                          width: '50px',
+                          height: '30px',
+                          lineHeight: '30px',
+                          backgroundColor: '#f8f9fa'
                         }}
-                        >
+                      >
                         {producto.cantidad}
                       </div>
 
-                      <Button 
-                        variant="outline-secondary" 
+                      <Button
+                        variant="outline-secondary"
                         size="sm"
                         onClick={() => actualizarCantidad(producto.id, producto.cantidad + 1)}
                         style={{ width: '30px', height: '30px', padding: 0 }}
@@ -116,8 +119,8 @@ export default function Carrito({ show, handleClose }) {
                   </Col>
                   <Col xs={4} className="text-end">
                     <p className="fw-bold mb-1 small">L. {producto.Precio * producto.cantidad}</p>
-                    <Button 
-                      variant="outline-danger" 
+                    <Button
+                      variant="outline-danger"
                       size="sm"
                       onClick={() => eliminarDelCarrito(producto.id)}
                       className="mt-1"
@@ -129,35 +132,35 @@ export default function Carrito({ show, handleClose }) {
               ))}
             </div>
 
-             <div style={{ 
-              borderTop: '1px solid #dee2e6', 
+            <div style={{
+              borderTop: '1px solid #dee2e6',
               padding: '1rem',
               backgroundColor: 'white',
               position: 'sticky',
               bottom: 0
             }}></div>
-           
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <h5 className="mb-0">Total:</h5>
-                <h5 className="mb-0 text-primary">L. {carrito.reduce((total, item) => total + (item.Precio * item.cantidad), 0)}</h5>
-              </div>
-              
-              <div className="d-grid gap-2">
-                <Button               
-                    style={{ backgroundColor: '#D7C5A1', borderColor: '#ada38fff', color: 'black'}}
-                    onMouseEnter={(e)=>e.target.style.backgroundColor='#ada38fff'}
-                    onMouseLeave={(e)=>e.target.style.backgroundColor='#D7C5A1'}   
-                    onClick={handleClose}>
-                  Seguir comprando
-                </Button>
-                <Button style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F'}}
-                onMouseEnter={(e)=>e.target.style.backgroundColor='#034a79ff'}
-                onMouseLeave={(e)=>e.target.style.backgroundColor='#022A3F'} 
-                onClick={irAlCheckout}>
-                  Realizar pago
-                </Button>
-              </div>
+
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h5 className="mb-0">Total:</h5>
+              <h5 className="mb-0 text-primary">L. {carrito.reduce((total, item) => total + (item.Precio * item.cantidad), 0)}</h5>
             </div>
+
+            <div className="d-grid gap-2">
+              <Button
+                style={{ backgroundColor: '#D7C5A1', borderColor: '#ada38fff', color: 'black' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#ada38fff'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#D7C5A1'}
+                onClick={handleClose}>
+                Seguir comprando
+              </Button>
+              <Button style={{ backgroundColor: '#0c374eff', borderColor: '#022A3F' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#034a79ff'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#022A3F'}
+                onClick={irAlCheckout}>
+                Realizar pago
+              </Button>
+            </div>
+          </div>
         )}
       </Offcanvas.Body>
     </Offcanvas>
