@@ -35,7 +35,7 @@ export default function FooterCustom() {
 
             {/* Redes sociales */}
             <div className="d-flex justify-content-center justify-content-md-end gap-3 mb-3">
-              <a href="https://www.tiktok.com/@TU_USUARIO"
+              <a href="https://www.tiktok.com/@repuestosexpress4"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-light"
