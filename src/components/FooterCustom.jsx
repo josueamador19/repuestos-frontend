@@ -43,7 +43,7 @@ export default function FooterCustom() {
                 <FontAwesomeIcon icon={faTiktok} />
               </a>
 
-              <a href="https://www.instagram.com/TU_USUARIO/"
+              <a href="https://www.instagram.com/repuestosexpress27?igsh=cnJvcHFseTY0dTQ1"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-light"

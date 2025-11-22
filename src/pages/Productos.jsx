@@ -97,6 +97,7 @@ export default function Productos() {
                 <Card.Body>
                   <Card.Title>{producto.nombre}</Card.Title>
                   <Card.Text>
+                    Descripcion: {producto.Descripcion}<br />
                     Precio: L.{producto.Precio} <br />
                     Disponibilidad: {producto.Stock > 0 ? producto.Stock : "Agotado"} <br />
                     Categoría: {producto.Categoria}
